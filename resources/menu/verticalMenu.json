@@ -1,0 +1,77 @@
+{
+  "menu": [
+    {
+      "name": "Dashboard",
+      "icon": "menu-icon tf-icons ti ti-smart-home",
+      "slug": "dashboard",
+      "routeName": "admin.dashboard"
+    },
+    {
+      "name": "Laravel Example",
+      "icon": "menu-icon tf-icons ti ti-brand-php",
+      "slug": "laravel-example",
+      "submenu": [
+        {
+          "routeName": "users.laravel",
+          "name": "User Management",
+          "slug": "laravel-example-user-management"
+        }
+      ]
+    },
+    {
+      "menuHeader": "Management"
+    },
+    {
+      "name": "Users",
+      "icon": "menu-icon tf-icons ti ti-users",
+      "slug": "app-user",
+      "submenu": [
+        {
+          "routeName": "user.list",
+          "name": "List",
+          "slug": "app-user-list"
+        },
+        {
+          "name": "View",
+          "slug": "app-user-view",
+          "submenu": [
+            {
+              "routeName": "user.view-account",
+              "name": "Account",
+              "slug": "app-user-view-account"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Roles & Permissions",
+      "icon": "menu-icon tf-icons ti ti-settings",
+      "slug": "app-access",
+      "submenu": [
+        {
+          "routeName": "role.list",
+          "name": "Roles",
+          "slug": "app-access-roles"
+        },
+        {
+          "routeName": "permission.list",
+          "name": "Permission",
+          "slug": "app-access-permission"
+        }
+      ]
+    },
+    {
+      "name": "Faq's",
+      "icon": "menu-icon tf-icons ti ti-settings",
+      "slug": "admin-faq",
+      "routeName": "admin.faq"
+    },
+    {
+      "name": "Pricing",
+      "icon": "menu-icon tf-icons ti ti-settings",
+      "slug": "admin-pricing",
+      "routeName": "admin.pricing"
+    }
+  ]
+}
