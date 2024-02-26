@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\auth;
 
+use App\Events\LoginEvent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +31,7 @@ class AuthController extends Controller
 
     if (Auth::attempt($validated)) {
       $user = Auth::user();
-
+      event(new LoginEvent($user));
       return redirect(route('admin.dashboard'));
     } else {
       return redirect()->back()->with('error', 'Email or password incorrect!.');

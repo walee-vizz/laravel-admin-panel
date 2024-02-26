@@ -71,13 +71,14 @@ Route::middleware(Authenticate::class)->group(function () {
   // User Routes
   Route::controller(UserController::class)->prefix('user')->name('user.')->group(function () {
 
-    Route::get('/list', 'index')->name('list');
+    Route::get('/list', 'list_view')->name('list');
     Route::get('/', 'show')->name('profile.show');
     Route::get('/account', 'account')->name('view-account');
     Route::get('/teams', 'teams')->name('teams');
     Route::get('/projects', 'projects')->name('projects');
     Route::get('/connections', 'connections')->name('connections');
   });
+  Route::resource('/users', UserController::class);
   // End User Routes
 
   // User Settings Routes
@@ -103,7 +104,7 @@ Route::middleware(Authenticate::class)->group(function () {
 
 // laravel example
 Route::get('/laravel/user-management', [UserManagement::class, 'UserManagement'])->name('users.laravel');
-Route::resource('/user-list', UserManagement::class);
+// Route::resource('/user-list', UserManagement::class);
 
 
 // Call Back Pages Routes
