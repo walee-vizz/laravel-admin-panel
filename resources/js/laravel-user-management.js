@@ -40,6 +40,7 @@ $(function () {
         { data: '' },
         { data: 'id' },
         { data: 'name' },
+        { data: 'role' },
         { data: 'email' },
         { data: 'email_verified_at' },
         { data: 'action' }
@@ -101,8 +102,23 @@ $(function () {
           }
         },
         {
-          // User email
+          // User Role
           targets: 3,
+          render: function (data, type, full, meta) {
+            var $role = full['role'];
+            var roleBadgeObj = {
+              Subscriber: '<span class="badge badge-center rounded-pill bg-label-warning w-px-30 h-px-30 me-2"><i class="ti ti-user ti-sm"></i></span>',
+              Author: '<span class="badge badge-center rounded-pill bg-label-success w-px-30 h-px-30 me-2"><i class="ti ti-circle-check ti-sm"></i></span>',
+              moderator: '<span class="badge badge-center rounded-pill bg-label-primary w-px-30 h-px-30 me-2"><i class="ti ti-chart-pie-2 ti-sm"></i></span>',
+              editor: '<span class="badge badge-center rounded-pill bg-label-info w-px-30 h-px-30 me-2"><i class="ti ti-edit ti-sm"></i></span>',
+              superadmin: '<span class="badge badge-center rounded-pill bg-label-secondary w-px-30 h-px-30 me-2"><i class="ti ti-device-laptop ti-sm"></i></span>'
+            };
+            return "<span class='text-truncate d-flex align-items-center'>" + ($role ? roleBadgeObj[$role.replace(' ', '')] + $role : '');
+          }
+        },
+        {
+          // User email
+          targets: 4,
           render: function (data, type, full, meta) {
             var $email = full['email'];
 
@@ -111,15 +127,14 @@ $(function () {
         },
         {
           // email verify
-          targets: 4,
+          targets: 5,
           className: 'text-center',
           render: function (data, type, full, meta) {
             var $verified = full['email_verified_at'];
-            return `${
-              $verified
-                ? '<i class="ti fs-4 ti-shield-check text-success"></i>'
-                : '<i class="ti fs-4 ti-shield-x text-danger" ></i>'
-            }`;
+            return `${$verified
+              ? '<i class="ti fs-4 ti-shield-check text-success"></i>'
+              : '<i class="ti fs-4 ti-shield-x text-danger" ></i>'
+              }`;
           }
         },
         {
@@ -320,24 +335,80 @@ $(function () {
             var data = $.map(columns, function (col, i) {
               return col.title !== '' // ? Do not show row in modal popup if title is blank (for check box)
                 ? '<tr data-dt-row="' +
-                    col.rowIndex +
-                    '" data-dt-column="' +
-                    col.columnIndex +
-                    '">' +
-                    '<td>' +
-                    col.title +
-                    ':' +
-                    '</td> ' +
-                    '<td>' +
-                    col.data +
-                    '</td>' +
-                    '</tr>'
+                col.rowIndex +
+                '" data-dt-column="' +
+                col.columnIndex +
+                '">' +
+                '<td>' +
+                col.title +
+                ':' +
+                '</td> ' +
+                '<td>' +
+                col.data +
+                '</td>' +
+                '</tr>'
                 : '';
             }).join('');
 
             return data ? $('<table class="table"/><tbody />').append(data) : false;
           }
         }
+      },
+      initComplete: function () {
+        // Adding role filter once table initialized
+        this.api()
+          .columns(2)
+          .every(function () {
+            var column = this;
+            var select = $(
+              '<select id="UserRole" class="form-select text-capitalize"><option value=""> Select Role </option></select>'
+            )
+              .appendTo('.user_role')
+              .on('change', function () {
+                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                column.search(val ? '^' + val + '$' : '', true, false).draw();
+              });
+
+            column
+              .data()
+              .unique()
+              .sort()
+              .each(function (d, j) {
+                if (!d) {
+                  return;
+                }
+                select.append('<option value="' + d + '">' + d + '</option>');
+              });
+          });
+
+        // Adding status filter once table initialized
+        // this.api()
+        //   .columns(5)
+        //   .every(function () {
+        //     var column = this;
+        //     var select = $(
+        //       '<select id="FilterTransaction" class="form-select text-capitalize"><option value=""> Select Status </option></select>'
+        //     )
+        //       .appendTo('.user_status')
+        //       .on('change', function () {
+        //         var val = $.fn.dataTable.util.escapeRegex($(this).val());
+        //         column.search(val ? '^' + val + '$' : '', true, false).draw();
+        //       });
+
+        //     column
+        //       .data()
+        //       .unique()
+        //       .sort()
+        //       .each(function (d, j) {
+        //         select.append(
+        //           '<option value="' +
+        //           statusObj[d].title +
+        //           '" class="text-capitalize">' +
+        //           statusObj[d].title +
+        //           '</option>'
+        //         );
+        //       });
+        //   });
       }
     });
   }

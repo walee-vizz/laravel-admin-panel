@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class RolesPermissionsSeeder extends Seeder
@@ -37,13 +38,17 @@ class RolesPermissionsSeeder extends Seeder
       'delete users',
       'edit profile',
     ];
+    // Clear permission cache
+    app(PermissionRegistrar::class)->forgetCachedPermissions();
 
     foreach ($permissions as $permission) {
-      if (!Permission::where('name', $permission)->exists()) {
-        // Create the permission only if it doesn't exist
-        $permission_created = Permission::create(["name" => $permission]);
+      $permissionName = strtolower($permission);
+
+      if (!Permission::where('name', $permissionName)->exists()) {
+        $permission_created = Permission::create(["name" => $permissionName]);
       }
     }
+
 
     foreach ($roles as $role) {
       $role_created = Role::create(["name" => $role]);

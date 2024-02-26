@@ -87,6 +87,7 @@ class UserManagement extends Controller
         $nestedData['id'] = $user->id;
         $nestedData['fake_id'] = ++$ids;
         $nestedData['name'] = $user->name;
+        $nestedData['role'] = $user->roles->implode('name', ', ');
         $nestedData['email'] = $user->email;
         $nestedData['email_verified_at'] = $user->email_verified_at;
 

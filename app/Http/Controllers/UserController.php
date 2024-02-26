@@ -9,7 +9,21 @@ class UserController extends Controller
 {
   public function index()
   {
-    return view('content.apps.app-user-list');
+    $users = User::all();
+    $userCount = $users->count();
+    $verified = User::whereNotNull('email_verified_at')->get()->count();
+    $notVerified = User::whereNull('email_verified_at')->get()->count();
+    $usersUnique = $users->unique(['email']);
+    $userDuplicates = $users->diff($usersUnique)->count();
+
+    $data = [
+      'totalUser' => $userCount,
+      'verified' => $verified,
+      'notVerified' => $notVerified,
+      'userDuplicates' => $userDuplicates,
+    ];
+
+    return view('content.laravel-example.user-management', $data);
   }
 
 
