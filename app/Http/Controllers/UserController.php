@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -50,14 +51,14 @@ class UserController extends Controller
     $dir = $request->input('order.0.dir');
 
     if (empty($request->input('search.value'))) {
-      $users = User::offset($start)
+      $users = User::with('country')->offset($start)
         ->limit($limit)
         ->orderBy($order, $dir)
         ->get();
     } else {
       $search = $request->input('search.value');
 
-      $users = User::where('id', 'LIKE', "%{$search}%")
+      $users = User::with('country')->where('id', 'LIKE', "%{$search}%")
         ->orWhere('name', 'LIKE', "%{$search}%")
         ->orWhere('email', 'LIKE', "%{$search}%")
         ->offset($start)
@@ -84,6 +85,7 @@ class UserController extends Controller
         $nestedData['role'] = $user->roles->implode('name', ', ');
         $nestedData['email'] = $user->email;
         $nestedData['email_verified_at'] = $user->email_verified_at;
+        $nestedData['country'] = $user->country;
 
         $data[] = $nestedData;
       }
@@ -109,16 +111,26 @@ class UserController extends Controller
   public function store(Request $request)
   {
     $userID = $request->id;
-
+    $role = [];
     if ($userID) {
       // update the value
       $users = User::updateOrCreate(
         ['id' => $userID],
-        ['name' => $request->name, 'email' => $request->email]
+        [
+          'name' => $request->name,
+          'email' => $request->email,
+          'country_id' => $request->country_id || null
+        ]
       );
-
+      if (isset($request->roles) && isset($request->roles[0])) {
+        $users->roles()->detach();
+        foreach ($request->roles as  $role) {
+          $role = Role::where('id', $role)->first();
+          $users->assignRole($role->name);
+        }
+      }
       // user updated
-      return response()->json('Updated');
+      return response()->json(['Updated']);
     } else {
       // create new one if email is unique
       $userEmail = User::where('email', $request->email)->first();
@@ -144,13 +156,13 @@ class UserController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function edit($id)
+  public function edit(User $user)
   {
-    $where = ['id' => $id];
+    // $where = ['id' => $id];
 
-    $users = User::where($where)->first();
-
-    return response()->json($users);
+    // $users = User::where($where)->first();
+    $user->roles = $user->roles()->pluck('id')->toArray();
+    return response()->json($user);
   }
 
   /**

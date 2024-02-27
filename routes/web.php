@@ -1,20 +1,21 @@
 <?php
 
+use App\Models\User;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard\Crm;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CalbackController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\dashboard\Analytics;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Controllers\language\LanguageController;
 use App\Http\Controllers\laravel_example\UserManagement;
-use App\Http\Controllers\CalbackController;
 use App\Http\Controllers\settings\UserSettingController;
-use App\Http\Middleware\Authenticate;
-use App\Http\Middleware\RedirectIfAuthenticated;
 
 // Main Page Route
 Route::get('/dashboard/analytics', [Analytics::class, 'index'])->name('dashboard-analytics');
@@ -77,6 +78,11 @@ Route::middleware(Authenticate::class)->group(function () {
     Route::get('/teams', 'teams')->name('teams');
     Route::get('/projects', 'projects')->name('projects');
     Route::get('/connections', 'connections')->name('connections');
+    Route::get('assign', function () {
+      $user = User::find(7);
+      $user->assignRole('user');
+      dd($user->roles()->first());
+    });
   });
   Route::resource('/users', UserController::class);
   // End User Routes
