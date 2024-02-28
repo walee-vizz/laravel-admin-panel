@@ -82,7 +82,9 @@ class UserController extends Controller
         $nestedData['id'] = $user->id;
         $nestedData['fake_id'] = ++$ids;
         $nestedData['name'] = $user->name;
-        $nestedData['role'] = $user->roles->implode('name', ', ');
+        if (!empty($user->getRoleNames())) {
+          $nestedData['roles'] =  $user->getRoleNames();
+        }
         $nestedData['email'] = $user->email;
         $nestedData['email_verified_at'] = $user->email_verified_at;
         $nestedData['country'] = $user->country;
@@ -119,7 +121,7 @@ class UserController extends Controller
         [
           'name' => $request->name,
           'email' => $request->email,
-          'country_id' => $request->country_id || null
+          'country_id' => $request?->country_id
         ]
       );
       if (isset($request->roles) && isset($request->roles[0])) {
@@ -138,7 +140,13 @@ class UserController extends Controller
       if (empty($userEmail)) {
         $users = User::updateOrCreate(
           ['id' => $userID],
-          ['name' => $request->name, 'email' => $request->email, 'password' => bcrypt(Str::random(10))]
+          [
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt(Str::random(10)),
+            'country_id' => $request->country_id || null
+          ],
+
         );
 
         // user created
@@ -161,7 +169,16 @@ class UserController extends Controller
     // $where = ['id' => $id];
 
     // $users = User::where($where)->first();
-    $user->roles = $user->roles()->pluck('id')->toArray();
+    $roleIds = [];
+    if (!empty($user->getRoleNames())) {
+      $roleNames = $user->getRoleNames();
+
+      $roles = Role::whereIn('name', $roleNames)->get();
+      foreach ($roles as $role) {
+        $roleIds[] = $role->id;
+      }
+    }
+    $user->role_ids = $roleIds;
     return response()->json($user);
   }
 

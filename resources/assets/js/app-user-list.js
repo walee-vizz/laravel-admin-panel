@@ -29,11 +29,14 @@ $(function () {
     };
 
   if (select2.length) {
-    var $this = select2;
-    $this.wrap('<div class="position-relative"></div>').select2({
-      placeholder: 'Select Country',
-      dropdownParent: $this.parent()
-    });
+    select2.each(function () {
+
+
+      $(this).wrap('<div class="position-relative"></div>').select2({
+        placeholder: 'Select an option',
+        dropdownParent: $(this).parent()
+      });
+    })
   }
 
   // Users datatable
@@ -353,18 +356,18 @@ $(function () {
             var data = $.map(columns, function (col, i) {
               return col.title !== '' // ? Do not show row in modal popup if title is blank (for check box)
                 ? '<tr data-dt-row="' +
-                    col.rowIndex +
-                    '" data-dt-column="' +
-                    col.columnIndex +
-                    '">' +
-                    '<td>' +
-                    col.title +
-                    ':' +
-                    '</td> ' +
-                    '<td>' +
-                    col.data +
-                    '</td>' +
-                    '</tr>'
+                col.rowIndex +
+                '" data-dt-column="' +
+                col.columnIndex +
+                '">' +
+                '<td>' +
+                col.title +
+                ':' +
+                '</td> ' +
+                '<td>' +
+                col.data +
+                '</td>' +
+                '</tr>'
                 : '';
             }).join('');
 
@@ -438,10 +441,10 @@ $(function () {
               .each(function (d, j) {
                 select.append(
                   '<option value="' +
-                    statusObj[d].title +
-                    '" class="text-capitalize">' +
-                    statusObj[d].title +
-                    '</option>'
+                  statusObj[d].title +
+                  '" class="text-capitalize">' +
+                  statusObj[d].title +
+                  '</option>'
                 );
               });
           });

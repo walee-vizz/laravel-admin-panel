@@ -13,11 +13,12 @@ $(function () {
     offCanvasForm = $('#offcanvasAddUser');
 
   if (select2.length) {
-    var $this = select2;
-    $this.wrap('<div class="position-relative"></div>').select2({
-      placeholder: 'Select Country',
-      dropdownParent: $this.parent()
-    });
+    select2.each(function () {
+      $(this).wrap('<div class="position-relative"></div>').select2({
+        placeholder: 'Select An Option',
+        dropdownParent: $(this).parent()
+      });
+    })
   }
 
   // ajax setup

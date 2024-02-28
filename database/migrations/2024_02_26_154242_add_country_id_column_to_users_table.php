@@ -13,7 +13,7 @@ return new class extends Migration
   public function up(): void
   {
     Schema::table('users', function (Blueprint $table) {
-      $table->foreignIdFor(Country::class)->nullable()->default(null)->after('id');
+      $table->foreignIdFor(Country::class)->nullable()->default(null)->after('password');
     });
   }
 

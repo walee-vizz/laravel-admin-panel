@@ -26,6 +26,15 @@
 
 @section('page-script')
     <script src="{{ asset('js/laravel-user-management.js') }}"></script>
+    <script>
+        // $(document).ready(function() {
+        //     // Initialize select2 for the country dropdown
+        //     $('#country').select2();
+
+        //     // Initialize select2 for the user role dropdown
+        //     $('#add-user-role').select2();
+        // });
+    </script>
 @endsection
 
 @section('content')

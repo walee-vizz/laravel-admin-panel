@@ -137,10 +137,17 @@ document.addEventListener('DOMContentLoaded', function (e) {
             }
           }
         },
-        formValidationSelect2: {
+        formValidationSelect2Country: {
           validators: {
             notEmpty: {
               message: 'Please select your country'
+            }
+          }
+        },
+        formValidationSelect2Role: {
+          validators: {
+            notEmpty: {
+              message: 'Please select user role'
             }
           }
         },
@@ -221,7 +228,8 @@ document.addEventListener('DOMContentLoaded', function (e) {
               case 'formValidationConfirmPass':
               case 'formValidationFile':
               case 'formValidationDob':
-              case 'formValidationSelect2':
+              case 'formValidationSelect2Country':
+              case 'formValidationSelect2Role':
               case 'formValidationLang':
               case 'formValidationTech':
               case 'formValidationHobbies':
@@ -274,18 +282,18 @@ document.addEventListener('DOMContentLoaded', function (e) {
     });
 
     // Select2 (Country)
-    if (formValidationSelect2Ele.length) {
-      formValidationSelect2Ele.wrap('<div class="position-relative"></div>');
-      formValidationSelect2Ele
-        .select2({
-          placeholder: 'Select country',
-          dropdownParent: formValidationSelect2Ele.parent()
-        })
-        .on('change.select2', function () {
-          // Revalidate the color field when an option is chosen
-          fv.revalidateField('formValidationSelect2');
-        });
-    }
+    // if (formValidationSelect2Ele.length) {
+    //   formValidationSelect2Ele.wrap('<div class="position-relative"></div>');
+    //   formValidationSelect2Ele
+    //     .select2({
+    //       placeholder: 'Select country',
+    //       dropdownParent: formValidationSelect2Ele.parent()
+    //     })
+    //     .on('change.select2', function () {
+    //       // Revalidate the color field when an option is chosen
+    //       fv.revalidateField('formValidationSelect2');
+    //     });
+    // }
 
     // Typeahead
 

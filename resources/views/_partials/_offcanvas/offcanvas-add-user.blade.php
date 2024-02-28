@@ -19,8 +19,8 @@
                             placeholder="john.doe@example.com" aria-label="john.doe@example.com" name="email" />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="country">Country</label>
-                        <select id="country" class="select2 form-select" name="country_id">
+                        <label class="form-label" for="add-user-country">Country</label>
+                        <select id="add-user-country" class="select2 form-select" name="country_id">
                             <option value="">Select Country</option>
                             @foreach ($countries_data as $country)
                                 <option value="{{ $country->id }}">{{ $country->name }}</option>
@@ -28,8 +28,8 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="user-role">User Role</label>
-                        <select id="add-user-role" class="form-select" name="roles[]">
+                        <label class="form-label" for="add-user-role">User Role</label>
+                        <select id="add-user-role" class="select2 form-select" name="roles[]" multiple>
                             <option value="">Select user role</option>
                             @foreach ($roles as $role)
                                 <option value="{{ $role->id }}">{{ $role->name }}</option>
