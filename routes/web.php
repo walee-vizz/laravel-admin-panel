@@ -96,7 +96,11 @@ Route::middleware(Authenticate::class)->group(function () {
 
   // Roles & Permissions Routes
   Route::controller(RoleController::class)->prefix('role')->name('role.')->group(function () {
+    Route::post('/', 'roles_list')->name('list');
     Route::get('/list', 'index')->name('list');
+    Route::post('/create', 'store')->name('create');
+    Route::PUT('/update/{role}', 'update')->name('update');
+    Route::delete('/delete/{role}', 'destroy')->name('destroy');
   });
   Route::controller(PermissionController::class)->prefix('permission')->name('permission.')->group(function () {
     Route::get('/list', 'index')->name('list');

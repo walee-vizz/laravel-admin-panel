@@ -9,10 +9,10 @@
                     <p class="text-muted">Set role permissions</p>
                 </div>
                 <!-- Add role form -->
-                <form id="addRoleForm" class="row g-3" onsubmit="return false">
+                <form id="addRoleForm" class="row g-3">
                     <div class="col-12 mb-4">
-                        <label class="form-label" for="modalRoleName">Role Name</label>
-                        <input type="text" id="modalRoleName" name="modalRoleName" class="form-control"
+                        <label class="form-label" for="name">Role Name</label>
+                        <input type="text" id="name" name="name" class="form-control"
                             placeholder="Enter a role name" tabindex="-1" />
                     </div>
                     <div class="col-12">
@@ -52,9 +52,10 @@
                                                             @if (preg_match('/\bview\b/i', Str::lower($sub_permission->name)))
                                                                 {{-- @dd($sub_permission->name) --}}
 
-                                                                <div class="form-check me-3 me-lg-5">
+                                                                <div class="form-check me-2 me-lg-4">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         id="{{ $sub_permission->id }}"
+                                                                        name="permissions[]"
                                                                         value="{{ $sub_permission->id }}" />
                                                                     <label class="form-check-label"
                                                                         for="{{ $sub_permission->id }}">
@@ -62,7 +63,7 @@
                                                                     </label>
                                                                 </div>
                                                             @elseif (preg_match('/\bcreate\b/i', Str::lower($sub_permission->name)))
-                                                                <div class="form-check me-3 me-lg-5">
+                                                                <div class="form-check me-2 me-lg-4">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         id="{{ $sub_permission->id }}"
                                                                         name="permissions[]"
@@ -73,9 +74,10 @@
                                                                     </label>
                                                                 </div>
                                                             @elseif (preg_match('/\bedit\b/i', Str::lower($sub_permission->name)))
-                                                                <div class="form-check me-3 me-lg-5">
+                                                                <div class="form-check me-2 me-lg-4">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         id="{{ $sub_permission->id }}"
+                                                                        name="permissions[]"
                                                                         value="{{ $sub_permission->id }}" />
                                                                     <label class="form-check-label"
                                                                         for="{{ $sub_permission->id }}">
@@ -83,9 +85,10 @@
                                                                     </label>
                                                                 </div>
                                                             @elseif (preg_match('/\bdelete\b/i', Str::lower($sub_permission->name)))
-                                                                <div class="form-check me-3 me-lg-5">
+                                                                <div class="form-check me-2 me-lg-4">
                                                                     <input class="form-check-input" type="checkbox"
                                                                         id="{{ $sub_permission->id }}"
+                                                                        name="permissions[]"
                                                                         value="{{ $sub_permission->id }}" />
                                                                     <label class="form-check-label"
                                                                         for="{{ $sub_permission->id }}">
@@ -105,14 +108,14 @@
 
                                         <td>
                                             <div class="d-flex">
-                                                <div class="form-check me-3 me-lg-5">
+                                                <div class="form-check me-2 me-lg-4">
                                                     <input class="form-check-input" type="checkbox"
                                                         id="userManagementRead" />
                                                     <label class="form-check-label" for="userManagementRead">
                                                         Read
                                                     </label>
                                                 </div>
-                                                <div class="form-check me-3 me-lg-5">
+                                                <div class="form-check me-2 me-lg-4">
                                                     <input class="form-check-input" type="checkbox"
                                                         id="userManagementWrite" />
                                                     <label class="form-check-label" for="userManagementWrite">
@@ -133,14 +136,14 @@
                                         <td class="text-nowrap fw-medium">Content Management</td>
                                         <td>
                                             <div class="d-flex">
-                                                <div class="form-check me-3 me-lg-5">
+                                                <div class="form-check me-2 me-lg-4">
                                                     <input class="form-check-input" type="checkbox"
                                                         id="contentManagementRead" />
                                                     <label class="form-check-label" for="contentManagementRead">
                                                         Read
                                                     </label>
                                                 </div>
-                                                <div class="form-check me-3 me-lg-5">
+                                                <div class="form-check me-2 me-lg-4">
                                                     <input class="form-check-input" type="checkbox"
                                                         id="contentManagementWrite" />
                                                     <label class="form-check-label" for="contentManagementWrite">
@@ -161,14 +164,14 @@
                                         <td class="text-nowrap fw-medium">Disputes Management</td>
                                         <td>
                                             <div class="d-flex">
-                                                <div class="form-check me-3 me-lg-5">
+                                                <div class="form-check me-2 me-lg-4">
                                                     <input class="form-check-input" type="checkbox"
                                                         id="dispManagementRead" />
                                                     <label class="form-check-label" for="dispManagementRead">
                                                         Read
                                                     </label>
                                                 </div>
-                                                <div class="form-check me-3 me-lg-5">
+                                                <div class="form-check me-2 me-lg-4">
                                                     <input class="form-check-input" type="checkbox"
                                                         id="dispManagementWrite" />
                                                     <label class="form-check-label" for="dispManagementWrite">
@@ -189,14 +192,14 @@
                                         <td class="text-nowrap fw-medium">Database Management</td>
                                         <td>
                                             <div class="d-flex">
-                                                <div class="form-check me-3 me-lg-5">
+                                                <div class="form-check me-2 me-lg-4">
                                                     <input class="form-check-input" type="checkbox"
                                                         id="dbManagementRead" />
                                                     <label class="form-check-label" for="dbManagementRead">
                                                         Read
                                                     </label>
                                                 </div>
-                                                <div class="form-check me-3 me-lg-5">
+                                                <div class="form-check me-2 me-lg-4">
                                                     <input class="form-check-input" type="checkbox"
                                                         id="dbManagementWrite" />
                                                     <label class="form-check-label" for="dbManagementWrite">
@@ -217,14 +220,14 @@
                                         <td class="text-nowrap fw-medium">Financial Management</td>
                                         <td>
                                             <div class="d-flex">
-                                                <div class="form-check me-3 me-lg-5">
+                                                <div class="form-check me-2 me-lg-4">
                                                     <input class="form-check-input" type="checkbox"
                                                         id="finManagementRead" />
                                                     <label class="form-check-label" for="finManagementRead">
                                                         Read
                                                     </label>
                                                 </div>
-                                                <div class="form-check me-3 me-lg-5">
+                                                <div class="form-check me-2 me-lg-4">
                                                     <input class="form-check-input" type="checkbox"
                                                         id="finManagementWrite" />
                                                     <label class="form-check-label" for="finManagementWrite">
@@ -245,14 +248,14 @@
                                         <td class="text-nowrap fw-medium">Reporting</td>
                                         <td>
                                             <div class="d-flex">
-                                                <div class="form-check me-3 me-lg-5">
+                                                <div class="form-check me-2 me-lg-4">
                                                     <input class="form-check-input" type="checkbox"
                                                         id="reportingRead" />
                                                     <label class="form-check-label" for="reportingRead">
                                                         Read
                                                     </label>
                                                 </div>
-                                                <div class="form-check me-3 me-lg-5">
+                                                <div class="form-check me-2 me-lg-4">
                                                     <input class="form-check-input" type="checkbox"
                                                         id="reportingWrite" />
                                                     <label class="form-check-label" for="reportingWrite">
@@ -273,13 +276,13 @@
                                         <td class="text-nowrap fw-medium">API Control</td>
                                         <td>
                                             <div class="d-flex">
-                                                <div class="form-check me-3 me-lg-5">
+                                                <div class="form-check me-2 me-lg-4">
                                                     <input class="form-check-input" type="checkbox" id="apiRead" />
                                                     <label class="form-check-label" for="apiRead">
                                                         Read
                                                     </label>
                                                 </div>
-                                                <div class="form-check me-3 me-lg-5">
+                                                <div class="form-check me-2 me-lg-4">
                                                     <input class="form-check-input" type="checkbox" id="apiWrite" />
                                                     <label class="form-check-label" for="apiWrite">
                                                         Write
@@ -298,13 +301,13 @@
                                         <td class="text-nowrap fw-medium">Repository Management</td>
                                         <td>
                                             <div class="d-flex">
-                                                <div class="form-check me-3 me-lg-5">
+                                                <div class="form-check me-2 me-lg-4">
                                                     <input class="form-check-input" type="checkbox" id="repoRead" />
                                                     <label class="form-check-label" for="repoRead">
                                                         Read
                                                     </label>
                                                 </div>
-                                                <div class="form-check me-3 me-lg-5">
+                                                <div class="form-check me-2 me-lg-4">
                                                     <input class="form-check-input" type="checkbox" id="repoWrite" />
                                                     <label class="form-check-label" for="repoWrite">
                                                         Write
@@ -324,14 +327,14 @@
                                         <td class="text-nowrap fw-medium">Payroll</td>
                                         <td>
                                             <div class="d-flex">
-                                                <div class="form-check me-3 me-lg-5">
+                                                <div class="form-check me-2 me-lg-4">
                                                     <input class="form-check-input" type="checkbox"
                                                         id="payrollRead" />
                                                     <label class="form-check-label" for="payrollRead">
                                                         Read
                                                     </label>
                                                 </div>
-                                                <div class="form-check me-3 me-lg-5">
+                                                <div class="form-check me-2 me-lg-4">
                                                     <input class="form-check-input" type="checkbox"
                                                         id="payrollWrite" />
                                                     <label class="form-check-label" for="payrollWrite">
