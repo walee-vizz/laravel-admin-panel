@@ -43,7 +43,7 @@
         let usersListJson = @json($usersJson);
     </script>
     {{-- <script src="{{ asset('assets/js/app-user-list.js') }}"></script> --}}
-    <script src="{{ asset('js/laravel-user-management.js') }}"></script>
+    <script src="{{ asset('assets/js/laravel-user-management.js') }}"></script>
 
 @endsection
 

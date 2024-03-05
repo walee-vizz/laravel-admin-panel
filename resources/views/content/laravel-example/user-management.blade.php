@@ -23,7 +23,7 @@
 @endsection
 
 @section('page-script')
-    <script src="{{ asset('js/laravel-user-management.js') }}"></script>
+    <script src="{{ asset('assets/js/laravel-user-management.js') }}"></script>
     <script>
         // $(document).ready(function() {
         //     // Initialize select2 for the country dropdown
