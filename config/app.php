@@ -168,10 +168,10 @@ return [
     // App\Providers\BroadcastServiceProvider::class,
     App\Providers\EventServiceProvider::class,
     App\Providers\RouteServiceProvider::class,
-    App\Providers\MenuServiceProvider::class,
-    App\Providers\RolesPermissionsServiceProvider::class,
-    App\Providers\CountryDropdownProvider::class,
-    Spatie\Permission\PermissionServiceProvider::class,
+    // App\Providers\MenuServiceProvider::class,
+    // App\Providers\RolesPermissionsServiceProvider::class,
+    // App\Providers\CountryDropdownProvider::class,
+    // Spatie\Permission\PermissionServiceProvider::class,
   ])->toArray(),
 
   /*
