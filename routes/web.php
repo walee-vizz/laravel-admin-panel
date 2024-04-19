@@ -51,7 +51,7 @@ Route::controller(AuthController::class)->prefix('auth')->name('auth.')->middlew
   Route::get('/verify-email-cover', 'verify_email_cover')->name('verify_email_cover');
   Route::get('/reset-password-basic', 'reset_password_basic')->name('reset_password_basic');
   Route::get('/reset-password-cover', 'reset_password_cover')->name('reset_password_cover');
-  Route::get('/forgot-password-basic', 'forgot_password_basic')->name('reset_password_basic');
+  Route::get('/forgot-password-basic', 'forgot_password_basic')->name('forgot_password_basic');
   Route::get('/forgot-password-cover', 'forgot_password_cover')->name('forgot_password_cover');
   Route::get('/two-steps-basic', 'two-steps_basic')->name('two_steps_basic');
   Route::get('/two-steps-cover', 'two_steps_cover')->name('two_steps_cover');
