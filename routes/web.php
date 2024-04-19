@@ -96,7 +96,7 @@ Route::middleware(Authenticate::class)->group(function () {
 
   // Roles & Permissions Routes
   Route::controller(RoleController::class)->prefix('role')->name('role.')->group(function () {
-    Route::post('/', 'roles_list')->name('list');
+    Route::post('/', 'roles_list')->name('index');
     Route::get('/list', 'index')->name('list');
     Route::post('/create', 'store')->name('create');
     Route::PUT('/update/{role}', 'update')->name('update');
