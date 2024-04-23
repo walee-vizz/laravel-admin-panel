@@ -2969,9 +2969,9 @@ function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Re
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -2980,7 +2980,7 @@ function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key i
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -3642,7 +3642,7 @@ var Config = /*#__PURE__*/function () {
   function Config() {
     _classCallCheck(this, Config);
   }
-  _createClass(Config, [{
+  return _createClass(Config, [{
     key: "_getConfig",
     value: function _getConfig(config) {
       config = this._mergeConfigObj(config);
@@ -3696,7 +3696,6 @@ var Config = /*#__PURE__*/function () {
       throw new Error('You have to implement the static method "NAME", for each component!');
     }
   }]);
-  return Config;
 }();
 /**
  * --------------------------------------------------------------------------
@@ -3713,7 +3712,6 @@ var VERSION = '5.3.2';
  * Class definition
  */
 var BaseComponent = /*#__PURE__*/function (_Config) {
-  _inherits(BaseComponent, _Config);
   function BaseComponent(element, config) {
     var _this;
     _classCallCheck(this, BaseComponent);
@@ -3724,12 +3722,13 @@ var BaseComponent = /*#__PURE__*/function (_Config) {
     }
     _this._element = element;
     _this._config = _this._getConfig(config);
-    Data.set(_this._element, _this.constructor.DATA_KEY, _assertThisInitialized(_this));
+    Data.set(_this._element, _this.constructor.DATA_KEY, _this);
     return _this;
   }
 
   // Public
-  _createClass(BaseComponent, [{
+  _inherits(BaseComponent, _Config);
+  return _createClass(BaseComponent, [{
     key: "dispose",
     value: function dispose() {
       Data.remove(this._element, this.constructor.DATA_KEY);
@@ -3795,7 +3794,6 @@ var BaseComponent = /*#__PURE__*/function (_Config) {
       return "".concat(name).concat(this.EVENT_KEY);
     }
   }]);
-  return BaseComponent;
 }(Config);
 /**
  * --------------------------------------------------------------------------
@@ -3944,12 +3942,12 @@ var CLASS_NAME_SHOW$8 = 'show';
  * Class definition
  */
 var Alert = /*#__PURE__*/function (_BaseComponent) {
-  _inherits(Alert, _BaseComponent);
   function Alert() {
     _classCallCheck(this, Alert);
     return _callSuper(this, Alert, arguments);
   }
-  _createClass(Alert, [{
+  _inherits(Alert, _BaseComponent);
+  return _createClass(Alert, [{
     key: "close",
     value:
     // Public
@@ -3998,7 +3996,6 @@ var Alert = /*#__PURE__*/function (_BaseComponent) {
       });
     }
   }]);
-  return Alert;
 }(BaseComponent);
 /**
  * Data API implementation
@@ -4034,12 +4031,12 @@ var EVENT_CLICK_DATA_API$6 = "click".concat(EVENT_KEY$a).concat(DATA_API_KEY$6);
  * Class definition
  */
 var Button = /*#__PURE__*/function (_BaseComponent2) {
-  _inherits(Button, _BaseComponent2);
   function Button() {
     _classCallCheck(this, Button);
     return _callSuper(this, Button, arguments);
   }
-  _createClass(Button, [{
+  _inherits(Button, _BaseComponent2);
+  return _createClass(Button, [{
     key: "toggle",
     value:
     // Public
@@ -4067,7 +4064,6 @@ var Button = /*#__PURE__*/function (_BaseComponent2) {
       });
     }
   }]);
-  return Button;
 }(BaseComponent);
 /**
  * Data API implementation
@@ -4122,7 +4118,6 @@ var DefaultType$c = {
  * Class definition
  */
 var Swipe = /*#__PURE__*/function (_Config2) {
-  _inherits(Swipe, _Config2);
   function Swipe(element, config) {
     var _this3;
     _classCallCheck(this, Swipe);
@@ -4139,7 +4134,8 @@ var Swipe = /*#__PURE__*/function (_Config2) {
   }
 
   // Getters
-  _createClass(Swipe, [{
+  _inherits(Swipe, _Config2);
+  return _createClass(Swipe, [{
     key: "dispose",
     value:
     // Public
@@ -4239,7 +4235,6 @@ var Swipe = /*#__PURE__*/function (_Config2) {
       return 'ontouchstart' in document.documentElement || navigator.maxTouchPoints > 0;
     }
   }]);
-  return Swipe;
 }(Config);
 /**
  * --------------------------------------------------------------------------
@@ -4307,7 +4302,6 @@ var DefaultType$b = {
  * Class definition
  */
 var Carousel = /*#__PURE__*/function (_BaseComponent3) {
-  _inherits(Carousel, _BaseComponent3);
   function Carousel(element, config) {
     var _this5;
     _classCallCheck(this, Carousel);
@@ -4326,7 +4320,8 @@ var Carousel = /*#__PURE__*/function (_BaseComponent3) {
   }
 
   // Getters
-  _createClass(Carousel, [{
+  _inherits(Carousel, _BaseComponent3);
+  return _createClass(Carousel, [{
     key: "next",
     value:
     // Public
@@ -4660,7 +4655,6 @@ var Carousel = /*#__PURE__*/function (_BaseComponent3) {
       });
     }
   }]);
-  return Carousel;
 }(BaseComponent);
 /**
  * Data API implementation
@@ -4751,7 +4745,6 @@ var DefaultType$a = {
  * Class definition
  */
 var Collapse = /*#__PURE__*/function (_BaseComponent4) {
-  _inherits(Collapse, _BaseComponent4);
   function Collapse(element, config) {
     var _this12;
     _classCallCheck(this, Collapse);
@@ -4788,7 +4781,8 @@ var Collapse = /*#__PURE__*/function (_BaseComponent4) {
   }
 
   // Getters
-  _createClass(Collapse, [{
+  _inherits(Collapse, _BaseComponent4);
+  return _createClass(Collapse, [{
     key: "toggle",
     value:
     // Public
@@ -5003,7 +4997,6 @@ var Collapse = /*#__PURE__*/function (_BaseComponent4) {
       });
     }
   }]);
-  return Collapse;
 }(BaseComponent);
 /**
  * Data API implementation
@@ -5104,7 +5097,6 @@ var DefaultType$9 = {
  * Class definition
  */
 var Dropdown = /*#__PURE__*/function (_BaseComponent5) {
-  _inherits(Dropdown, _BaseComponent5);
   function Dropdown(element, config) {
     var _this15;
     _classCallCheck(this, Dropdown);
@@ -5118,7 +5110,8 @@ var Dropdown = /*#__PURE__*/function (_BaseComponent5) {
   }
 
   // Getters
-  _createClass(Dropdown, [{
+  _inherits(Dropdown, _BaseComponent5);
+  return _createClass(Dropdown, [{
     key: "toggle",
     value:
     // Public
@@ -5455,7 +5448,6 @@ var Dropdown = /*#__PURE__*/function (_BaseComponent5) {
       }
     }
   }]);
-  return Dropdown;
 }(BaseComponent);
 /**
  * Data API implementation
@@ -5510,7 +5502,6 @@ var DefaultType$8 = {
  * Class definition
  */
 var Backdrop = /*#__PURE__*/function (_Config3) {
-  _inherits(Backdrop, _Config3);
   function Backdrop(config) {
     var _this17;
     _classCallCheck(this, Backdrop);
@@ -5522,7 +5513,8 @@ var Backdrop = /*#__PURE__*/function (_Config3) {
   }
 
   // Getters
-  _createClass(Backdrop, [{
+  _inherits(Backdrop, _Config3);
+  return _createClass(Backdrop, [{
     key: "show",
     value:
     // Public
@@ -5622,7 +5614,6 @@ var Backdrop = /*#__PURE__*/function (_Config3) {
       return NAME$9;
     }
   }]);
-  return Backdrop;
 }(Config);
 /**
  * --------------------------------------------------------------------------
@@ -5654,7 +5645,6 @@ var DefaultType$7 = {
  * Class definition
  */
 var FocusTrap = /*#__PURE__*/function (_Config4) {
-  _inherits(FocusTrap, _Config4);
   function FocusTrap(config) {
     var _this20;
     _classCallCheck(this, FocusTrap);
@@ -5666,7 +5656,8 @@ var FocusTrap = /*#__PURE__*/function (_Config4) {
   }
 
   // Getters
-  _createClass(FocusTrap, [{
+  _inherits(FocusTrap, _Config4);
+  return _createClass(FocusTrap, [{
     key: "activate",
     value:
     // Public
@@ -5738,7 +5729,6 @@ var FocusTrap = /*#__PURE__*/function (_Config4) {
       return NAME$8;
     }
   }]);
-  return FocusTrap;
 }(Config);
 /**
  * --------------------------------------------------------------------------
@@ -5764,7 +5754,7 @@ var ScrollBarHelper = /*#__PURE__*/function () {
   }
 
   // Public
-  _createClass(ScrollBarHelper, [{
+  return _createClass(ScrollBarHelper, [{
     key: "getWidth",
     value: function getWidth() {
       // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
@@ -5868,7 +5858,6 @@ var ScrollBarHelper = /*#__PURE__*/function () {
       }
     }
   }]);
-  return ScrollBarHelper;
 }();
 /**
  * --------------------------------------------------------------------------
@@ -5917,7 +5906,6 @@ var DefaultType$6 = {
  * Class definition
  */
 var Modal = /*#__PURE__*/function (_BaseComponent6) {
-  _inherits(Modal, _BaseComponent6);
   function Modal(element, config) {
     var _this23;
     _classCallCheck(this, Modal);
@@ -5933,7 +5921,8 @@ var Modal = /*#__PURE__*/function (_BaseComponent6) {
   }
 
   // Getters
-  _createClass(Modal, [{
+  _inherits(Modal, _BaseComponent6);
+  return _createClass(Modal, [{
     key: "toggle",
     value:
     // Public
@@ -6182,7 +6171,6 @@ var Modal = /*#__PURE__*/function (_BaseComponent6) {
       });
     }
   }]);
-  return Modal;
 }(BaseComponent);
 /**
  * Data API implementation
@@ -6267,7 +6255,6 @@ var DefaultType$5 = {
  * Class definition
  */
 var Offcanvas = /*#__PURE__*/function (_BaseComponent7) {
-  _inherits(Offcanvas, _BaseComponent7);
   function Offcanvas(element, config) {
     var _this31;
     _classCallCheck(this, Offcanvas);
@@ -6280,7 +6267,8 @@ var Offcanvas = /*#__PURE__*/function (_BaseComponent7) {
   }
 
   // Getters
-  _createClass(Offcanvas, [{
+  _inherits(Offcanvas, _BaseComponent7);
+  return _createClass(Offcanvas, [{
     key: "toggle",
     value:
     // Public
@@ -6432,7 +6420,6 @@ var Offcanvas = /*#__PURE__*/function (_BaseComponent7) {
       });
     }
   }]);
-  return Offcanvas;
 }(BaseComponent);
 /**
  * Data API implementation
@@ -6656,7 +6643,6 @@ var DefaultContentType = {
  * Class definition
  */
 var TemplateFactory = /*#__PURE__*/function (_Config5) {
-  _inherits(TemplateFactory, _Config5);
   function TemplateFactory(config) {
     var _this37;
     _classCallCheck(this, TemplateFactory);
@@ -6666,7 +6652,8 @@ var TemplateFactory = /*#__PURE__*/function (_Config5) {
   }
 
   // Getters
-  _createClass(TemplateFactory, [{
+  _inherits(TemplateFactory, _Config5);
+  return _createClass(TemplateFactory, [{
     key: "getContent",
     value:
     // Public
@@ -6788,7 +6775,6 @@ var TemplateFactory = /*#__PURE__*/function (_Config5) {
       return NAME$5;
     }
   }]);
-  return TemplateFactory;
 }(Config);
 /**
  * --------------------------------------------------------------------------
@@ -6871,7 +6857,6 @@ var DefaultType$3 = {
  * Class definition
  */
 var Tooltip = /*#__PURE__*/function (_BaseComponent8) {
-  _inherits(Tooltip, _BaseComponent8);
   function Tooltip(element, config) {
     var _this39;
     _classCallCheck(this, Tooltip);
@@ -6899,7 +6884,8 @@ var Tooltip = /*#__PURE__*/function (_BaseComponent8) {
   }
 
   // Getters
-  _createClass(Tooltip, [{
+  _inherits(Tooltip, _BaseComponent8);
+  return _createClass(Tooltip, [{
     key: "enable",
     value:
     // Public
@@ -7399,7 +7385,6 @@ var Tooltip = /*#__PURE__*/function (_BaseComponent8) {
       });
     }
   }]);
-  return Tooltip;
 }(BaseComponent);
 /**
  * jQuery
@@ -7435,12 +7420,12 @@ var DefaultType$2 = _objectSpread(_objectSpread({}, Tooltip.DefaultType), {}, {
  * Class definition
  */
 var Popover = /*#__PURE__*/function (_Tooltip) {
-  _inherits(Popover, _Tooltip);
   function Popover() {
     _classCallCheck(this, Popover);
     return _callSuper(this, Popover, arguments);
   }
-  _createClass(Popover, [{
+  _inherits(Popover, _Tooltip);
+  return _createClass(Popover, [{
     key: "_isWithContent",
     value:
     // Overrides
@@ -7493,7 +7478,6 @@ var Popover = /*#__PURE__*/function (_Tooltip) {
       });
     }
   }]);
-  return Popover;
 }(Tooltip);
 /**
  * jQuery
@@ -7550,7 +7534,6 @@ var DefaultType$1 = {
  * Class definition
  */
 var ScrollSpy = /*#__PURE__*/function (_BaseComponent9) {
-  _inherits(ScrollSpy, _BaseComponent9);
   function ScrollSpy(element, config) {
     var _this47;
     _classCallCheck(this, ScrollSpy);
@@ -7571,7 +7554,8 @@ var ScrollSpy = /*#__PURE__*/function (_BaseComponent9) {
   }
 
   // Getters
-  _createClass(ScrollSpy, [{
+  _inherits(ScrollSpy, _BaseComponent9);
+  return _createClass(ScrollSpy, [{
     key: "refresh",
     value:
     // Public
@@ -7836,7 +7820,6 @@ var ScrollSpy = /*#__PURE__*/function (_BaseComponent9) {
       });
     }
   }]);
-  return ScrollSpy;
 }(BaseComponent);
 /**
  * Data API implementation
@@ -7907,7 +7890,6 @@ var SELECTOR_DATA_TOGGLE_ACTIVE = ".".concat(CLASS_NAME_ACTIVE, "[data-bs-toggle
  * Class definition
  */
 var Tab = /*#__PURE__*/function (_BaseComponent10) {
-  _inherits(Tab, _BaseComponent10);
   function Tab(element) {
     var _this51;
     _classCallCheck(this, Tab);
@@ -7928,7 +7910,8 @@ var Tab = /*#__PURE__*/function (_BaseComponent10) {
   }
 
   // Getters
-  _createClass(Tab, [{
+  _inherits(Tab, _BaseComponent10);
+  return _createClass(Tab, [{
     key: "show",
     value:
     // Public
@@ -8155,7 +8138,6 @@ var Tab = /*#__PURE__*/function (_BaseComponent10) {
       });
     }
   }]);
-  return Tab;
 }(BaseComponent);
 /**
  * Data API implementation
@@ -8234,7 +8216,6 @@ var Default = {
  * Class definition
  */
 var Toast = /*#__PURE__*/function (_BaseComponent11) {
-  _inherits(Toast, _BaseComponent11);
   function Toast(element, config) {
     var _this55;
     _classCallCheck(this, Toast);
@@ -8247,7 +8228,8 @@ var Toast = /*#__PURE__*/function (_BaseComponent11) {
   }
 
   // Getters
-  _createClass(Toast, [{
+  _inherits(Toast, _BaseComponent11);
+  return _createClass(Toast, [{
     key: "show",
     value:
     // Public
@@ -8401,7 +8383,6 @@ var Toast = /*#__PURE__*/function (_BaseComponent11) {
       });
     }
   }]);
-  return Toast;
 }(BaseComponent);
 /**
  * Data API implementation
